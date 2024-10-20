@@ -1,5 +1,5 @@
-def CONTAINER_NAME = "calculator"
 def ENV_NAME = getEnvName(env.BRANCH_NAME)
+def CONTAINER_NAME = "calculator-" +ENV_NAME
 def CONTAINER_TAG = getTag(env.BUILD_NUMBER, env.BRANCH_NAME)
 def HTTP_PORT = getHTTPPort(env.BRANCH_NAME)
 def EMAIL_RECIPIENTS = "c_robelkend@gmail.com"
@@ -71,7 +71,7 @@ def imagePrune(containerName) {
 }
 
 def imageBuild(containerName, tag) {
-    sh "docker build -t $containerName:$tag  -t $containerName --pull --no-cache ."
+    sh "docker build -t $containerName:$tag  --pull --no-cache ."
     echo "Image build complete"
 }
 
