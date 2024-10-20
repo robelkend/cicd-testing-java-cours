@@ -54,10 +54,10 @@ node {
 
             }
         }
-
+        sendSuccessEmail(EMAIL_RECIPIENTS);
     } finally {
         deleteDir()
-        sendEmail(EMAIL_RECIPIENTS);
+        sendFailEmail(EMAIL_RECIPIENTS);
     }
 
 }
@@ -88,11 +88,18 @@ def runApp(containerName, tag, dockerHubUser, httpPort, envName) {
     echo "Application started on port: ${httpPort} (http)"
 }
 
-def sendEmail(recipients) {
+def sendFailEmail(recipients) {
     mail(
             to: recipients,
             subject: "Build ${env.BUILD_NUMBER} - ${currentBuild.currentResult} - (${currentBuild.fullDisplayName})",
             body: "Check console output at: ${env.BUILD_URL}/console" + "\n")
+}
+
+def sendSuccessEmail(recipients) {
+    mail(
+            to: recipients,
+            subject: "Build ${env.BUILD_NUMBER} - ${currentBuild.currentResult} - (${currentBuild.fullDisplayName})",
+            body: "Succes Job. Check console output at: ${env.BUILD_URL}/console" + "\n")
 }
 
 String getEnvName(String branchName) {
