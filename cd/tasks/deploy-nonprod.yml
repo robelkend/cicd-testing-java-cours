@@ -1,0 +1,15 @@
+platform: linux
+image_resource:
+  type: registry-image
+  source:
+    repository: docker:20.10
+inputs:
+  - name: calculator-repo
+run:
+  path: sh
+  args:
+    - -exc
+    - |
+      cd calculator-repo
+      docker build -t calculator-nonprod .
+      docker run -d --name calculator-nonprod -p 9001:9001 -e SPRING_PROFILES_ACTIVE=dev calculator-nonprod

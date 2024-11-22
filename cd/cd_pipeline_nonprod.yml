@@ -1,0 +1,23 @@
+resources:
+  - name: calculator-repo
+    type: git
+    source:
+      uri: https://github.com/robelkend/cicd-testing-java-cours.git
+      branch: main
+      username: ((git-username))
+      password: ((git-password))
+
+  - name: docker-image-nonprod
+    type: registry-image
+    source:
+      repository: your-docker-repo/calculator-nonprod
+      username: ((docker-username))
+      password: ((docker-password))
+
+jobs:
+  - name: deploy-nonprod
+    plan:
+      - get: calculator-repo
+        trigger: true
+      - task: deploy-nonprod
+        file: cd/tasks/deploy-nonprod.yml

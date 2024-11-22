@@ -1,0 +1,23 @@
+resources:
+  - name: calculator-repo
+    type: git
+    source:
+      uri: https://github.com/robelkend/cicd-testing-java-cours.git
+      branch: main
+      username: ((git-username))
+      password: ((git-password))
+
+  - name: docker-image-prod
+    type: registry-image
+    source:
+      repository: your-docker-repo/calculator-prod
+      username: ((docker-username))
+      password: ((docker-password))
+
+jobs:
+  - name: deploy-prod
+    plan:
+      - get: calculator-repo
+        trigger: true
+      - task: deploy-prod
+        file: cd/tasks/deploy-prod.yml

@@ -1,0 +1,23 @@
+resources:
+  - name: calculator-repo
+    type: git
+    source:
+      uri: https://github.com/robelkend/cicd-testing-java-cours.git
+      branch: main
+      username: ((git-username))
+      password: ((git-password))
+
+jobs:
+  - name: build
+    plan:
+      - get: calculator-repo
+        trigger: true
+      - task: build
+        file: ci/tasks/build-task.yml
+
+  - name: test
+    plan:
+      - get: calculator-repo
+        passed: [build]
+      - task: test
+        file: ci/tasks/test-task.yml

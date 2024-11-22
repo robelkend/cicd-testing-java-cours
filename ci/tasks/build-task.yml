@@ -1,0 +1,17 @@
+platform: linux
+image_resource:
+  type: registry-image
+  source:
+    repository: maven:3.8-openjdk-11
+inputs:
+  - name: calculator-repo
+outputs:
+  - name: build-output
+run:
+  path: sh
+  args:
+    - -exc
+    - |
+      cd calculator-repo
+      mvn clean package
+      cp target/calculator.jar ../build-output/

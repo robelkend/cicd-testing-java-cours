@@ -1,0 +1,15 @@
+platform: linux
+image_resource:
+  type: registry-image
+  source:
+    repository: docker:20.10
+inputs:
+  - name: calculator-repo
+run:
+  path: sh
+  args:
+    - -exc
+    - |
+      cd calculator-repo
+      docker build -t calculator-prod .
+      docker run -d --name calculator-prod -p 9002:9002 -e SPRING_PROFILES_ACTIVE=prod calculator-prod
