@@ -3,7 +3,7 @@ resources:
     type: git
     source:
       uri: https://github.com/robelkend/cicd-testing-java-cours.git
-      branch: main
+      branch: develop  # Branche suivie
       username: ((git-username))
       password: ((git-password))
 
