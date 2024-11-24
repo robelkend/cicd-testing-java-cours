@@ -3,8 +3,8 @@ config:
   image_resource:
     type: docker-image
     source:
-      repository: ubuntu
-      tag: latest
+      repository: maven
+      tag: 3.8.6-openjdk-17  # Image avec Maven et OpenJDK 17
   inputs:
     - name: calculator-repo  # Utilise la sortie de la tâche précédente
   run:

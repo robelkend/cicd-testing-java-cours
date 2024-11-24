@@ -1,18 +1,15 @@
-<<<<<<< HEAD
-=======
 resources:
   - name: calculator-repo
     type: git
     source:
-      uri: https://github.com/robelkend/cicd-testing-java-cours.git
-      branch: main
-      username: ((git-username))
-      password: ((git-password))
+      uri: https://github.com/your-repo/calculator.git
+      branch: develop
 
->>>>>>> parent of bd6632b (Concourse pipeline acces token)
 jobs:
   - name: build
     plan:
+      - get: calculator-repo
+        trigger: true
       - task: clone-calculator-repo
         config:
           platform: linux
@@ -38,4 +35,22 @@ jobs:
                 ls -la calculator-repo  # Vérifie le contenu cloné dans le répertoire de sortie
 
       - task: build
-        file: ci/tasks/build-task.yml
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: maven
+              tag: 3.8-openjdk-17
+          inputs:
+            - name: calculator-repo  # Utilise la sortie de la tâche précédente
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                cd calculator-repo  # Accède au répertoire cloné qui est maintenant monté en entrée
+                echo "Building project..."
+                ls -la  # Vérifie le contenu du répertoire cloné
+                # Ajoutez vos commandes de build ici, par exemple :
+                mvn clean install
