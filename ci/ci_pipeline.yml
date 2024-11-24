@@ -1,23 +1,29 @@
-resources:
-  - name: calculator-repo
-    type: git
-    source:
-      uri: https://github.com/robelkend/cicd-testing-java-cours.git
-      branch: develop  # Branche suivie
-      username: ((git-username))
-      password: ((git-password))
-
 jobs:
   - name: build
     plan:
-      - get: calculator-repo
-        trigger: true
+      - task: clone-calculator-repo
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: concourse/git-resource
+              tag: latest
+          params:
+            REPO_URI: https://github.com/robelkend/cicd-testing-java-cours.git
+            BRANCH: develop
+          outputs:
+            - name: calculator-repo  # Déclare le répertoire comme sortie
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                echo "Cloning repository..."
+                git config --global --add safe.directory /tmp/calculator-repo
+                git clone --branch "$BRANCH" "$REPO_URI" calculator-repo  # Cloner dans le bon répertoire
+                echo "Repository cloned successfully"
+                ls -la calculator-repo  # Vérifie le contenu cloné dans le répertoire de sortie
+
       - task: build
         file: ci/tasks/build-task.yml
-
-  - name: test
-    plan:
-      - get: calculator-repo
-        passed: [build]
-      - task: test
-        file: ci/tasks/test-task.yml

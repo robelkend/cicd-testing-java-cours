@@ -2,10 +2,8 @@ resources:
   - name: calculator-repo
     type: git
     source:
-      uri: https://github.com/robelkend/cicd-testing-java-cours.git
+      uri: https://((git-password))@github.com/robelkend/cicd-testing-java-cours.git
       branch: main
-      username: ((git-username))
-      password: ((git-password))
 
   - name: docker-image-prod
     type: registry-image

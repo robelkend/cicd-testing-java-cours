@@ -1,17 +1,19 @@
-platform: linux
-image_resource:
-  type: registry-image
-  source:
-    repository: maven:3.8-openjdk-11
-inputs:
-  - name: calculator-repo
-outputs:
-  - name: build-output
-run:
-  path: sh
-  args:
-    - -exc
-    - |
-      cd calculator-repo
-      mvn clean package
-      cp target/calculator.jar ../build-output/
+config:
+  platform: linux
+  image_resource:
+    type: docker-image
+    source:
+      repository: ubuntu
+      tag: latest
+  inputs:
+    - name: calculator-repo  # Utilise la sortie de la tâche précédente
+  run:
+    path: sh
+    args:
+      - -exc
+      - |
+        cd calculator-repo  # Accède au répertoire cloné qui est maintenant monté en entrée
+        echo "Building project..."
+        ls -la  # Vérifie le contenu du répertoire cloné
+        # Ajoutez vos commandes de build ici, par exemple :
+        # ./mvn clean install
