@@ -2,8 +2,15 @@ resources:
   - name: calculator-repo
     type: git
     source:
+<<<<<<< HEAD
       uri: https://((git-password))@github.com/robelkend/cicd-testing-java-cours.git
       branch: develop  # Branche suivie
+=======
+      uri: https://github.com/robelkend/cicd-testing-java-cours.git
+      branch: main
+      username: ((git-username))
+      password: ((git-password))
+>>>>>>> parent of bd6632b (Concourse pipeline acces token)
 
   - name: docker-image-nonprod
     type: registry-image

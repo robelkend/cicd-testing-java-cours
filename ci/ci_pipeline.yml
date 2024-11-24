@@ -1,3 +1,15 @@
+<<<<<<< HEAD
+=======
+resources:
+  - name: calculator-repo
+    type: git
+    source:
+      uri: https://github.com/robelkend/cicd-testing-java-cours.git
+      branch: main
+      username: ((git-username))
+      password: ((git-password))
+
+>>>>>>> parent of bd6632b (Concourse pipeline acces token)
 jobs:
   - name: build
     plan:
